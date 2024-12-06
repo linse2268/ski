@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Modak&family=Rubik+Bubbles&family=Ultra&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Ski</title>
+    <style>
+      body {
+        background-color: rgb(56, 56, 56);
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: "Ultra", serif;
+        font-weight: 200;
+        font-style: light;
+        color: rgb(123, 123, 207);
+      }
+      #content {
+        text-align: center;
+      }
+      h4 {
+        font-size: 4vw;
+        margin: 1vh;
+      }
+      h1 {
+        font-size: 15vw;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <h4>In...</h4>
+      <h1 id="tage"></h1>
+      <h4>... Tagen stehe ich auf der Piste</h4>
+    </div>
+    <script>
+      const tage = document.getElementById("tage");
+      let now = new Date();
+
+      tage.innerHTML = 26 - now.getDay();
+    </script>
+  </body>
+</html>
