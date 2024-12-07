@@ -13,7 +13,7 @@
     <title>Ski</title>
     <style>
       body {
-        background-color: rgb(56, 56, 56);
+        background-color: rgb(32, 32, 32);
         margin: 0;
         height: 100vh;
         display: flex;
@@ -22,17 +22,18 @@
         font-family: "Ultra", serif;
         font-weight: 200;
         font-style: light;
-        color: rgb(123, 123, 207);
+        color: rgba(126, 115, 192, 0.897);
+        user-select: none;
       }
       #content {
         text-align: center;
       }
       h4 {
-        font-size: 4vw;
+        font-size: calc(3vw + 40px);
         margin: 1vh;
       }
       h1 {
-        font-size: 15vw;
+        font-size: calc(12vw + 90px);
         margin: 0;
       }
     </style>
@@ -41,13 +42,28 @@
     <div id="content">
       <h4>In...</h4>
       <h1 id="tage"></h1>
-      <h4>... Tagen stehe ich auf der Piste</h4>
+      <h4>... Tagen stehe ich auf der Piste.</h4>
     </div>
     <script>
       const tage = document.getElementById("tage");
       let now = new Date();
 
-      tage.innerHTML = 26 - now.getDay();
+      let daysTillSki = 26 - now.getDay();
+      let daysNow = 0;
+      tage.innerText = daysNow;
+
+      const inteval = setInterval(() => {
+        if (daysTillSki == daysNow) {
+          stopInterval();
+        } else {
+          daysNow++;
+          tage.innerText = daysNow;
+        }
+      }, 100);
+
+      function stopInterval() {
+        clearInterval(inteval);
+      }
     </script>
   </body>
 </html>
