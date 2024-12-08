@@ -42,13 +42,15 @@
     <div id="content">
       <h4>In...</h4>
       <h1 id="tage"></h1>
-      <h4>... Tagen stehe ich auf der Piste.</h4>
+      <h4 id="endedesatzes">... Tagen stehe ich auf der Piste.</h4>
     </div>
     <script>
       const tage = document.getElementById("tage");
+      const endedesatzes = document.getElementById("endedesatzes");
       let now = new Date();
 
-      let daysTillSki = 26 - now.getDay();
+      let daysTillSki = 26 - now.getDate();
+      console.log(now.getDate());
       let daysNow = 0;
       tage.innerText = daysNow;
 
@@ -58,6 +60,9 @@
         } else {
           daysNow++;
           tage.innerText = daysNow;
+          if (daysNow == 1) {
+            endedesatzes.innerText = "... Tag stehe ich auf der Piste.";
+          }
         }
       }, 150);
 
