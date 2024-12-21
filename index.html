@@ -9,8 +9,8 @@
       href="https://fonts.googleapis.com/css2?family=Modak&family=Rubik+Bubbles&family=Ultra&display=swap"
       rel="stylesheet"
     />
-
     <title>Ski</title>
+    <link rel="icon" />
     <style>
       * {
         --dunkelblau: #2c3c62;
@@ -55,7 +55,6 @@
         display: flex;
         flex-direction: column;
         margin-bottom: -5vh;
-
       }
       img {
         width: 80vw;
@@ -66,51 +65,62 @@
   </head>
   <body>
     <div id="content">
-      <h4>In...</h4>
+      <h4 id="in">In...</h4>
       <h1 id="tage"></h1>
       <h4 id="endedesatzes">... Tagen stehe ich auf der Piste.</h4>
     </div>
     <div id="img">
       <img
         src="https://webcams.tramino.net/das-hoechste/heuberg-bergstation.jpg?1734776161"
-        alt=""
+        alt="Das Webcambild 'heuberg-bergstation' konnte nicht gefunden werden"
       />
       <img
         src="https://webcams.tramino.net/das-hoechste/kanzelwand-bergstation.jpg?1734776161"
-        alt=""
+        alt="Das Webcambild 'kanzelwand-bergstation' konnte nicht gefunden werden"
       />
       <img
         src="https://webcams.tramino.net/das-hoechste/fellhorn-gipfelstation.jpg?1734776161"
-        alt=""
+        alt="Das Webcambild 'fellhorn-gipfelstation' konnte nicht gefunden werden"
       />
       <img
         src="https://webcams.tramino.net/das-hoechste/fellhorn-mittelstation.jpg?1734776161"
-        alt=""
+        alt="Das Webcambild 'fellhorn-mittelstation' konnte nicht gefunden werden"
       />
     </div>
     <script>
       const tage = document.getElementById("tage");
       const endedesatzes = document.getElementById("endedesatzes");
+      const In = document.getElementById("in");
       let now = new Date();
 
       let daysTillSki = 26 - now.getDate();
       console.log(now.getDate());
-      let daysNow = 0;
-      tage.innerText = daysNow;
 
-      const inteval = setInterval(() => {
-        if (daysTillSki == daysNow) {
-          stopInterval();
+      if (now.getDate() > 26) {
+        fahrenBereits();
+      } else {
+        if (now.getDate() == 26) {
+          In.innerText = "";
+          tage.innerText = "Morgen";
+          endedesatzes.innerText = "... stehe ich auf der Piste.";
         } else {
-          daysNow++;
-          tage.innerText = daysNow;
+          tage.innerText = daysTillSki;
         }
-      }, 150);
+      }
 
-      function stopInterval() {
-        clearInterval(inteval);
+      function fahrenBereits() {
+        if (now.getDate() == 27) {
+          In.innerText = "";
+          tage.innerText = "Heute";
+          endedesatzes.innerText = "... stehe ich auf der Piste.";
+        } else {
+          In.innerText = "Seit..";
+          tage.innerText = now.getDate() - 27;
+          endedesatzes.innerText = "... Tagen stehe ich auf der Piste";
+        }
       }
     </script>
   </body>
 </html>
+
 
