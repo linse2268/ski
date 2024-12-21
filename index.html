@@ -12,29 +12,53 @@
 
     <title>Ski</title>
     <style>
+      * {
+        --dunkelblau: #2c3c62;
+        --hellblau: #5371b5;
+        --weiß: #ffedee;
+        --hellrot: #e54b4b;
+        --dunkelrot: #c54141;
+      }
+
       body {
-        background-color: rgb(32, 32, 32);
-        margin: 0;
-        height: 100vh;
+        background-color: var(--dunkelblau);
+        padding: 10vh;
+        min-height: 100vh;
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
         font-family: "Ultra", serif;
-        font-weight: 200;
-        font-style: light;
-        color: rgba(110, 88, 233, 0.897);
+        color: var(--weiß);
         user-select: none;
       }
       #content {
         text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 50vh;
       }
       h4 {
-        font-size: calc(3vw + 40px);
+        font-size: calc(2vw + 40px);
         margin: 1vh;
+        font-weight: 400;
+        width: 70vw;
       }
       h1 {
-        font-size: calc(12vw + 90px);
+        font-size: calc(7vw + 90px);
         margin: 0;
+        font-weight: 300;
+      }
+      #img {
+        margin: 10vh;
+        display: flex;
+        flex-direction: column;
+      }
+      img {
+        width: 80vw;
+        margin: 1vh;
+        border-radius: 1vh;
       }
     </style>
   </head>
@@ -43,6 +67,24 @@
       <h4>In...</h4>
       <h1 id="tage"></h1>
       <h4 id="endedesatzes">... Tagen stehe ich auf der Piste.</h4>
+    </div>
+    <div id="img">
+      <img
+        src="https://webcams.tramino.net/das-hoechste/heuberg-bergstation.jpg?1734776161"
+        alt=""
+      />
+      <img
+        src="https://webcams.tramino.net/das-hoechste/kanzelwand-bergstation.jpg?1734776161"
+        alt=""
+      />
+      <img
+        src="https://webcams.tramino.net/das-hoechste/fellhorn-gipfelstation.jpg?1734776161"
+        alt=""
+      />
+      <img
+        src="https://webcams.tramino.net/das-hoechste/fellhorn-mittelstation.jpg?1734776161"
+        alt=""
+      />
     </div>
     <script>
       const tage = document.getElementById("tage");
@@ -60,7 +102,6 @@
         } else {
           daysNow++;
           tage.innerText = daysNow;
-          
         }
       }, 150);
 
