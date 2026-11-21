@@ -51,7 +51,7 @@ h2{font-family:"Archivo Black",Impact,sans-serif;font-weight:400;font-size:clamp
 .cams{display:flex;flex-direction:column;gap:1.5rem}
 figure{margin:0;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:16px;overflow:hidden;backdrop-filter:blur(6px)}
 .bild{overflow:hidden;background:rgba(0,0,0,.25);min-height:140px}
-.bild img{display:block;width:100%;height:auto;color:var(--eis);font-size:.9rem}
+.bild img{display:block;width:95%;height:auto;color:var(--eis);font-size:.9rem}
 figcaption{padding:.7rem 1rem .9rem}
 figcaption b{display:block;font-size:1.05rem}
 figcaption small{display:block;margin-top:.25rem;color:var(--eis);line-height:1.5}
@@ -67,7 +67,7 @@ figcaption small{display:block;margin-top:.25rem;color:var(--eis);line-height:1.
     <p class="klein" id="vor"></p>
     <h1 class="zahl" id="zahl">…</h1>
     <p class="klein" id="nach"></p>
-    <a class="knopf" target="_blank" rel="noopener" href="https://www.ok-bergbahnen.com/skigebiete/pistenplan-interaktiv/">🗺️ Zum interaktiven Pistenplan</a>
+    <a class="knopf" target="_blank" rel="noopener" href="https://www.ok-bergbahnen.com/skigebiete/pistenplan-interaktiv/">Zum interaktiven Pistenplan</a>
   </section>
 
   <h2>Live von den Bergen</h2>
@@ -80,7 +80,7 @@ const START = { monat: 12, tag: 27 };   // erster Skitag
 const ENDE  = { monat: 1,  tag: 2  };   // letzter Skitag (Ende des Urlaubs)
 
 // Anteil der Bildhöhe, der oben abgeschnitten wird (Kopfzeile). 0 = nichts abschneiden
-const KOPFZEILE_ABSCHNEIDEN = 0.06;
+const KOPFZEILE_ABSCHNEIDEN = 0.08;
 
 const WEBCAMS = [
   { name: "Heuberg – Bergstation",    url: "https://webcams.tramino.net/das-hoechste/heuberg-bergstation.jpg" },
@@ -117,7 +117,7 @@ function aktualisieren() {
     $("zahl").classList.remove("wort");
     $("vor").textContent = "In …";
     $("zahl").textContent = d;
-    $("nach").textContent = (d === 1 ? "Tag" : "Tagen") + " stehe ich wieder auf der Piste. 🎿";
+    $("nach").textContent = (d === 1 ? "Tag" : "Tagen") + " stehe ich wieder auf der Piste.";
   }
 }
 aktualisieren();
