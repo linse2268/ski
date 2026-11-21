@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1a33">
 <title>Ski-Countdown</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⛷️</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,20 +13,22 @@
 :root{
   --nacht:#0b1a33; --dunkelblau:#2c3c62; --hellblau:#5371b5; --eis:#cfe6ff;
   --weiss:#fff; --rot:#e54b4b; --rot-dunkel:#c54141;
-  box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
 }
-*,*::before,*::after{box-sizing:inherit}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--nacht);overscroll-behavior:none}
 body{
   margin:0; min-height:100vh; color:var(--weiss);
   font-family:"Inter",system-ui,sans-serif;
-  background:linear-gradient(180deg,var(--nacht) 0%,var(--dunkelblau) 55%,var(--hellblau) 100%) fixed;
-  overflow-x:hidden;
+  background:transparent; overflow-x:hidden; overscroll-behavior:none;
 }
-#schnee{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
-main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:6vh 5vw 8vh}
+/* Hintergrund liegt fest hinter allem, dadurch keine weißen Balken beim Überscrollen */
+.bg{position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,var(--nacht) 0%,var(--dunkelblau) 55%,var(--hellblau) 100%)}
+#schnee{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:-1}
+.berge{position:fixed;left:0;right:0;bottom:0;height:22vh;z-index:-1;pointer-events:none}
+.berge svg{width:100%;height:100%;display:block}
+
+main{max-width:1400px;margin:0 auto;
+  padding:calc(6vh + env(safe-area-inset-top,0px)) 4vw calc(8vh + env(safe-area-inset-bottom,0px))}
 
 .hero{text-align:center;min-height:60vh;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:1rem}
 .klein{font-size:clamp(1.1rem,2.5vw + .5rem,1.9rem);color:var(--eis);margin:0}
@@ -44,17 +47,18 @@ main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:6vh 5vw 
 .knopf:active{transform:translateY(4px);box-shadow:0 2px 0 var(--rot-dunkel)}
 
 h2{font-family:"Archivo Black",Impact,sans-serif;font-weight:400;font-size:clamp(1.4rem,3vw + .6rem,2.2rem);margin:5vh 0 2vh;text-align:center}
-.cams{display:grid;grid-template-columns:1fr;gap:1.2rem}
-@media(min-width:700px){.cams{grid-template-columns:1fr 1fr}}
+/* Bilder immer untereinander, so groß wie möglich */
+.cams{display:flex;flex-direction:column;gap:1.5rem}
 figure{margin:0;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:16px;overflow:hidden;backdrop-filter:blur(6px)}
-figure img{display:block;width:100%;height:auto;min-height:140px;background:rgba(0,0,0,.25);color:var(--eis);font-size:.9rem}
-figcaption{padding:.7rem 1rem;font-weight:600}
-
-.berge{position:fixed;left:0;right:0;bottom:0;height:22vh;z-index:0;pointer-events:none}
-.berge svg{width:100%;height:100%;display:block}
+.bild{overflow:hidden;background:rgba(0,0,0,.25);min-height:140px}
+.bild img{display:block;width:100%;height:auto;color:var(--eis);font-size:.9rem}
+figcaption{padding:.7rem 1rem .9rem}
+figcaption b{display:block;font-size:1.05rem}
+figcaption small{display:block;margin-top:.25rem;color:var(--eis);line-height:1.5}
 </style>
 </head>
 <body>
+<div class="bg"></div>
 <canvas id="schnee"></canvas>
 <div class="berge"><svg viewBox="0 0 1200 200" preserveAspectRatio="none"><path d="M0 200V120l150-80 130 70 170-100 190 120 140-60 190 90 230-90v220z" fill="#fff" opacity=".12"/><path d="M0 200V150l180-60 160 50 200-80 220 100 180-50 260 70v20z" fill="#fff" opacity=".2"/></svg></div>
 
@@ -63,7 +67,7 @@ figcaption{padding:.7rem 1rem;font-weight:600}
     <p class="klein" id="vor"></p>
     <h1 class="zahl" id="zahl">…</h1>
     <p class="klein" id="nach"></p>
-    <a class="knopf" target="_blank" rel="noopener" href="https://www.ok-bergbahnen.com/skigebiete/pistenplan-interaktiv/">Zum interaktiven Pistenplan</a>
+    <a class="knopf" target="_blank" rel="noopener" href="https://www.ok-bergbahnen.com/skigebiete/pistenplan-interaktiv/">🗺️ Zum interaktiven Pistenplan</a>
   </section>
 
   <h2>Live von den Bergen</h2>
@@ -74,6 +78,9 @@ figcaption{padding:.7rem 1rem;font-weight:600}
 /* ===== EINSTELLUNGEN – hier einfach ändern ===== */
 const START = { monat: 12, tag: 27 };   // erster Skitag
 const ENDE  = { monat: 1,  tag: 2  };   // letzter Skitag (Ende des Urlaubs)
+
+// Anteil der Bildhöhe, der oben abgeschnitten wird (Kopfzeile). 0 = nichts abschneiden
+const KOPFZEILE_ABSCHNEIDEN = 0.06;
 
 const WEBCAMS = [
   { name: "Heuberg – Bergstation",    url: "https://webcams.tramino.net/das-hoechste/heuberg-bergstation.jpg" },
@@ -104,7 +111,7 @@ function aktualisieren() {
     $("vor").textContent = "";
     $("zahl").textContent = "Heute";
     $("zahl").classList.add("wort");
-    $("nach").textContent = "stehe ich auf der Piste!";
+    $("nach").textContent = "stehe ich auf der Piste! ⛷️";
   } else {
     const d = Math.round((s - heute) / TAG);
     $("zahl").classList.remove("wort");
@@ -116,37 +123,68 @@ function aktualisieren() {
 aktualisieren();
 setInterval(aktualisieren, 60000);
 
-/* Webcams (Bild wird alle 5 Min. neu geladen) */
-const cams = $("cams");
+/* Webcams */
+const fmt = d => d.toLocaleString("de-DE", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" });
+
+function bildLaden(c) {
+  const url = c.url + "?t=" + Date.now();
+  c.img.src = url;
+  // Zeitstempel der Aufnahme (nur wenn der Server es per CORS erlaubt)
+  c.aufnahme = "";
+  fetch(url, { method: "HEAD", cache: "no-store" })
+    .then(r => { const lm = r.headers.get("last-modified"); if (lm) { c.aufnahme = " · Aufnahme: " + fmt(new Date(lm)) + " Uhr"; c.zeigeInfo(); } })
+    .catch(() => {});
+}
+
 WEBCAMS.forEach(c => {
   const f = document.createElement("figure");
-  const i = document.createElement("img");
-  i.alt = "Webcambild „" + c.name + "“ konnte nicht geladen werden";
-  i.loading = "lazy";
-  i.src = c.url + "?t=" + Date.now();
-  const t = document.createElement("figcaption");
-  t.textContent = c.name;
-  f.append(i, t);
-  cams.append(f);
-});
-setInterval(() => {
-  document.querySelectorAll("figure img").forEach((img, k) => {
-    img.src = WEBCAMS[k].url + "?t=" + Date.now();
+  const wrap = document.createElement("div"); wrap.className = "bild";
+  const img = document.createElement("img");
+  img.alt = "Webcambild „" + c.name + "“ konnte nicht geladen werden";
+  img.loading = "lazy";
+  wrap.append(img);
+  const cap = document.createElement("figcaption");
+  const titel = document.createElement("b"); titel.textContent = c.name;
+  const info = document.createElement("small");
+  cap.append(titel, info);
+  f.append(wrap, cap);
+  $("cams").append(f);
+
+  c.img = img; c.aufnahme = ""; c.res = ""; c.geladen = "";
+  c.zeigeInfo = () => { info.textContent = [c.res, c.geladen].filter(Boolean).join(" · ") + c.aufnahme; };
+
+  img.addEventListener("load", () => {
+    const w = img.naturalWidth, h = img.naturalHeight;
+    if (w && h) {
+      // Kopfzeile abschneiden: Bild nach oben schieben, Rahmen entsprechend kürzen
+      const k = KOPFZEILE_ABSCHNEIDEN;
+      wrap.style.aspectRatio = w + " / " + (h * (1 - k));
+      img.style.marginTop = "-" + (k * h / w * 100) + "%";
+      c.res = w + " × " + h + " px";
+    }
+    c.geladen = "Aktualisiert: " + fmt(new Date()) + " Uhr";
+    c.zeigeInfo();
   });
-}, 300000);
+  bildLaden(c);
+});
+// alle 5 Minuten neu laden
+setInterval(() => WEBCAMS.forEach(bildLaden), 300000);
 
 /* Schneefall */
 (function () {
   const cv = $("schnee"), ctx = cv.getContext("2d");
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  let w, h, flocken = [];
-  function groesse() {
-    w = cv.width = innerWidth; h = cv.height = innerHeight;
-    const anzahl = Math.min(140, Math.round(w * h / 12000));
-    flocken = Array.from({ length: anzahl }, () => ({
+  let w = 0, h = 0, flocken = [];
+  function neu() {
+    flocken = Array.from({ length: Math.min(140, Math.round(w * h / 12000)) }, () => ({
       x: Math.random() * w, y: Math.random() * h,
       r: Math.random() * 2.5 + .8, v: Math.random() * 1 + .4, p: Math.random() * 6
     }));
+  }
+  function groesse() {
+    const breiteNeu = innerWidth !== w;
+    w = cv.width = innerWidth; h = cv.height = innerHeight;
+    if (breiteNeu) neu();   // bei reiner Höhenänderung (Adressleiste am Handy) bleiben die Flocken
   }
   function los() {
     ctx.clearRect(0, 0, w, h);
