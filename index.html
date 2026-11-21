@@ -1,168 +1,166 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Modak&family=Rubik+Bubbles&family=Ultra&display=swap"
-      rel="stylesheet"
-    />
-    <title>Ski</title>
-    <link rel="icon" />
-    <style>
-      * {
-        --dunkelblau: #2c3c62;
-        --hellblau: #5371b5;
-        --weiß: #ffffff;
-        --hellrot: #e54b4b;
-        --dunkelrot: #c54141;
-      }
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ski-Countdown</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⛷️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --nacht:#0b1a33; --dunkelblau:#2c3c62; --hellblau:#5371b5; --eis:#cfe6ff;
+  --weiss:#fff; --rot:#e54b4b; --rot-dunkel:#c54141;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0; min-height:100vh; color:var(--weiss);
+  font-family:"Inter",system-ui,sans-serif;
+  background:linear-gradient(180deg,var(--nacht) 0%,var(--dunkelblau) 55%,var(--hellblau) 100%) fixed;
+  overflow-x:hidden;
+}
+#schnee{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:6vh 5vw 8vh}
 
-      body {
-        background-color: var(--dunkelblau);
-        padding: 10vh;
+.hero{text-align:center;min-height:60vh;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:1rem}
+.klein{font-size:clamp(1.1rem,2.5vw + .5rem,1.9rem);color:var(--eis);margin:0}
+.zahl{
+  font-family:"Archivo Black",Impact,sans-serif;
+  font-size:clamp(5rem,22vw,14rem);line-height:1;margin:0;
+  background:linear-gradient(180deg,#fff,var(--eis));-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 6px 24px rgba(0,0,0,.35));
+}
+.zahl.wort{font-size:clamp(3.5rem,16vw,10rem);color:var(--weiss);background:none;-webkit-text-fill-color:currentColor}
+.knopf{
+  display:inline-block;margin-top:1rem;padding:.9rem 1.6rem;border-radius:999px;
+  background:var(--rot);color:var(--weiss);text-decoration:none;font-weight:600;
+  box-shadow:0 6px 0 var(--rot-dunkel);transition:transform .1s,box-shadow .1s;
+}
+.knopf:active{transform:translateY(4px);box-shadow:0 2px 0 var(--rot-dunkel)}
 
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        font-family: "Ultra", serif;
-        color: var(--weiß);
-        user-select: none;
+h2{font-family:"Archivo Black",Impact,sans-serif;font-weight:400;font-size:clamp(1.4rem,3vw + .6rem,2.2rem);margin:5vh 0 2vh;text-align:center}
+.cams{display:grid;grid-template-columns:1fr;gap:1.2rem}
+@media(min-width:700px){.cams{grid-template-columns:1fr 1fr}}
+figure{margin:0;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:16px;overflow:hidden;backdrop-filter:blur(6px)}
+figure img{display:block;width:100%;height:auto;min-height:140px;background:rgba(0,0,0,.25);color:var(--eis);font-size:.9rem}
+figcaption{padding:.7rem 1rem;font-weight:600}
 
-      }
-      #content {
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 50vh;
-        padding: 2vh;
-      }
-      h4 {
-        font-size: calc(1.5vw + 30px);
-        margin: 1vh;
-        font-weight: 400;
-        width: 70vw;
-      }
-      h1 {
-        font-size: calc(2.5vw + 40px);
-        margin: 0;
-        font-weight: 600;
-      }
-      #img {
-        margin: 10vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: -5vh;
-        width: 80vw;
-      }
-      img {
-        width: 100%;
-        margin: 1vh;
-        border-radius: 1vh;
-      }
-      .dreiStraßen{
-       width: 90vw;
-       margin-top: 10vh;
-       font-size: calc(1vw + 20px);
-       text-align: center;}
-      
-      #pistenplan{
-      	color: white;
-        font-size: calc(1vw + 20px);
-        font-weight: light;
-        }
-      
-    </style>
-  </head>
-  <body>
-    <div id="content">
-      <h4 id="in">In....</h4>
-      <h1 id="tage"></h1>
-      <h4 id="endedesatzes">... Tagen stehe ich wieder auf der Piste.</h4>
-    </div>
-    <a id="pistenplan" target="_blank" href="https://www.ok-bergbahnen.com/skigebiete/pistenplan-interaktiv/"> Hier geht's zum interaktiven Pistenplan</a>
-    
-    <div id="img">
-      <img
-        src="https://webcams.tramino.net/das-hoechste/heuberg-bergstation.jpg?1734776161"
-        alt="Das Webcambild 'heuberg-bergstation' konnte nicht gefunden werden"
-      />
-      <img
-        src="https://webcams.tramino.net/das-hoechste/kanzelwand-bergstation.jpg?1734776161"
-        alt="Das Webcambild 'kanzelwand-bergstation' konnte nicht gefunden werden"
-      />
-      <img
-        src="https://webcams.tramino.net/das-hoechste/fellhorn-gipfelstation.jpg?1734776161"
-        alt="Das Webcambild 'fellhorn-gipfelstation' konnte nicht gefunden werden"
-      />
-      <img
-        src="https://webcams.tramino.net/das-hoechste/fellhorn-mittelstation.jpg?1734776161"
-        alt="Das Webcambild 'fellhorn-mittelstation' konnte nicht gefunden werden"
-      />
-    </div>
-   
-    <script>
-      
-      const tage = document.getElementById("tage");
-      const endedesatzes = document.getElementById("endedesatzes");
-      const In = document.getElementById("in");
-      const contentDiv = document.getElementById("content");
-      const img = document.getElementById("img");
-      let now = new Date();
+.berge{position:fixed;left:0;right:0;bottom:0;height:22vh;z-index:0;pointer-events:none}
+.berge svg{width:100%;height:100%;display:block}
+</style>
+</head>
+<body>
+<canvas id="schnee"></canvas>
+<div class="berge"><svg viewBox="0 0 1200 200" preserveAspectRatio="none"><path d="M0 200V120l150-80 130 70 170-100 190 120 140-60 190 90 230-90v220z" fill="#fff" opacity=".12"/><path d="M0 200V150l180-60 160 50 200-80 220 100 180-50 260 70v20z" fill="#fff" opacity=".2"/></svg></div>
 
-      let daysTillSki = 27 - now.getDate();
-      console.log(now.getDate());
+<main>
+  <section class="hero">
+    <p class="klein" id="vor"></p>
+    <h1 class="zahl" id="zahl">…</h1>
+    <p class="klein" id="nach"></p>
+    <a class="knopf" target="_blank" rel="noopener" href="https://www.ok-bergbahnen.com/skigebiete/pistenplan-interaktiv/">Zum interaktiven Pistenplan</a>
+  </section>
 
-      if (now.getDate() > 26) {
-        fahrenBereits();
-      } else {
-        if (now.getDate() == 26) {
-          In.innerText = "";
-          tage.innerText = "Morgen";
-          endedesatzes.innerText = "... stehe ich auf der Piste.";
-        } else {
-          tage.innerText = daysTillSki;
-        }
-      }
+  <h2>Live von den Bergen</h2>
+  <section class="cams" id="cams"></section>
+</main>
 
-      function fahrenBereits() {
-        if (now.getDate() == 27) {
-          In.innerText = "";
-          tage.innerText = "Heute";
-          endedesatzes.innerText = "... stehe ich auf der Piste.";
-        } else {
-          In.innerText = "Seit...";
-          tage.innerText = now.getDate() - 26;
-          endedesatzes.innerText = "... Tagen stehe ich auf der Piste.";
-        }
-      }
+<script>
+/* ===== EINSTELLUNGEN – hier einfach ändern ===== */
+const START = { monat: 12, tag: 27 };   // erster Skitag
+const ENDE  = { monat: 1,  tag: 2  };   // letzter Skitag (Ende des Urlaubs)
 
-      function checkOrientation() {
-        if (window.orientation === 90 || window.orientation === -90) {
-          console.log("Landscape mode");
-          // Add your logic for landscape mode here
-          contentDiv.style = "margin-top: 30vh; margin-bottom: 30vh;";
-          img.style = "width: 85vw;";
-        } else {
-          console.log("Portrait mode");
-          // Add your logic for portrait mode here
-          contentDiv.style = "margin-top: 0vh; margin-bottom: 0vh;";
-          img.style = "width: 95vw;";
-        }
-      }
+const WEBCAMS = [
+  { name: "Heuberg – Bergstation",    url: "https://webcams.tramino.net/das-hoechste/heuberg-bergstation.jpg" },
+  { name: "Kanzelwand – Bergstation", url: "https://webcams.tramino.net/das-hoechste/kanzelwand-bergstation.jpg" },
+  { name: "Fellhorn – Gipfelstation", url: "https://webcams.tramino.net/das-hoechste/fellhorn-gipfelstation.jpg" },
+  { name: "Fellhorn – Mittelstation", url: "https://webcams.tramino.net/das-hoechste/fellhorn-mittelstation.jpg" }
+];
+/* =============================================== */
 
-      // Listen for orientation changes
-      window.addEventListener("orientationchange", checkOrientation);
+const TAG = 86400000;
+const $ = id => document.getElementById(id);
 
-      // Initial check
+function saison(heute) {
+  const folgejahr = (ENDE.monat < START.monat) || (ENDE.monat === START.monat && ENDE.tag < START.tag);
+  const jahr = heute.getFullYear();
+  for (const y of [jahr - 1, jahr]) {
+    const s = new Date(y, START.monat - 1, START.tag);
+    const e = new Date(folgejahr ? y + 1 : y, ENDE.monat - 1, ENDE.tag);
+    if (heute <= e) return { s, e };
+  }
+}
 
+function aktualisieren() {
+  const n = new Date();
+  const heute = new Date(n.getFullYear(), n.getMonth(), n.getDate());
+  const { s, e } = saison(heute);
+  if (heute >= s && heute <= e) {
+    $("vor").textContent = "";
+    $("zahl").textContent = "Heute";
+    $("zahl").classList.add("wort");
+    $("nach").textContent = "stehe ich auf der Piste!";
+  } else {
+    const d = Math.round((s - heute) / TAG);
+    $("zahl").classList.remove("wort");
+    $("vor").textContent = "In …";
+    $("zahl").textContent = d;
+    $("nach").textContent = (d === 1 ? "Tag" : "Tagen") + " stehe ich wieder auf der Piste. 🎿";
+  }
+}
+aktualisieren();
+setInterval(aktualisieren, 60000);
 
-    </script>
-  </body>
+/* Webcams (Bild wird alle 5 Min. neu geladen) */
+const cams = $("cams");
+WEBCAMS.forEach(c => {
+  const f = document.createElement("figure");
+  const i = document.createElement("img");
+  i.alt = "Webcambild „" + c.name + "“ konnte nicht geladen werden";
+  i.loading = "lazy";
+  i.src = c.url + "?t=" + Date.now();
+  const t = document.createElement("figcaption");
+  t.textContent = c.name;
+  f.append(i, t);
+  cams.append(f);
+});
+setInterval(() => {
+  document.querySelectorAll("figure img").forEach((img, k) => {
+    img.src = WEBCAMS[k].url + "?t=" + Date.now();
+  });
+}, 300000);
+
+/* Schneefall */
+(function () {
+  const cv = $("schnee"), ctx = cv.getContext("2d");
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  let w, h, flocken = [];
+  function groesse() {
+    w = cv.width = innerWidth; h = cv.height = innerHeight;
+    const anzahl = Math.min(140, Math.round(w * h / 12000));
+    flocken = Array.from({ length: anzahl }, () => ({
+      x: Math.random() * w, y: Math.random() * h,
+      r: Math.random() * 2.5 + .8, v: Math.random() * 1 + .4, p: Math.random() * 6
+    }));
+  }
+  function los() {
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = "rgba(255,255,255,.85)";
+    flocken.forEach(f => {
+      f.y += f.v; f.p += .01; f.x += Math.sin(f.p) * .5;
+      if (f.y > h) { f.y = -5; f.x = Math.random() * w; }
+      ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, 6.283); ctx.fill();
+    });
+    requestAnimationFrame(los);
+  }
+  addEventListener("resize", groesse);
+  groesse(); los();
+})();
+</script>
+</body>
 </html>
