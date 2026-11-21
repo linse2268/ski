@@ -129,7 +129,7 @@ function bildLaden(c) {
   // Zeitstempel der Aufnahme (nur wenn der Server es per CORS erlaubt)
   c.aufnahme = "";
   fetch(url, { method: "HEAD", cache: "no-store" })
-    .then(r => { const lm = r.headers.get("last-modified"); if (lm) { c.aufnahme = " · Aufnahme: " + fmt(new Date(lm)) + " Uhr"; c.zeigeInfo(); } })
+    .then(r => { const lm = r.headers.get("last-modified"); if (lm) { c.aufnahme = "Aufnahme: " + fmt(new Date(lm)) + " Uhr";} })
     .catch(() => {});
 }
 
@@ -150,10 +150,6 @@ WEBCAMS.forEach(c => {
   c.img = img; c.aufnahme = ""; c.geladen = "";
   c.zeigeInfo = () => { info.textContent = c.geladen + c.aufnahme; };
 
-  img.addEventListener("load", () => {
-    c.geladen = "Aktualisiert: " + fmt(new Date()) + " Uhr";
-    c.zeigeInfo();
-  });
   bildLaden(c);
 });
 // alle 5 Minuten neu laden
