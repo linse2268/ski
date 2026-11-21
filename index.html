@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1a33">
 <title>Ski-Countdown</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⛷️</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%232c3c62%22/><path d=%22M10 78 40 30 55 55 68 38 90 78z%22 fill=%22white%22/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600&display=swap" rel="stylesheet">
@@ -51,7 +51,7 @@ h2{font-family:"Archivo Black",Impact,sans-serif;font-weight:400;font-size:clamp
 .cams{display:flex;flex-direction:column;gap:1.5rem}
 figure{margin:0;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:16px;overflow:hidden;backdrop-filter:blur(6px)}
 .bild{overflow:hidden;background:rgba(0,0,0,.25);min-height:140px}
-.bild img{display:block;width:95%;height:auto;color:var(--eis);font-size:.9rem}
+.bild img{display:block;width:100%;height:auto;color:var(--eis);font-size:.9rem}
 figcaption{padding:.7rem 1rem .9rem}
 figcaption b{display:block;font-size:1.05rem}
 figcaption small{display:block;margin-top:.25rem;color:var(--eis);line-height:1.5}
@@ -78,9 +78,6 @@ figcaption small{display:block;margin-top:.25rem;color:var(--eis);line-height:1.
 /* ===== EINSTELLUNGEN – hier einfach ändern ===== */
 const START = { monat: 12, tag: 27 };   // erster Skitag
 const ENDE  = { monat: 1,  tag: 2  };   // letzter Skitag (Ende des Urlaubs)
-
-// Anteil der Bildhöhe, der oben abgeschnitten wird (Kopfzeile). 0 = nichts abschneiden
-const KOPFZEILE_ABSCHNEIDEN = 0.08;
 
 const WEBCAMS = [
   { name: "Heuberg – Bergstation",    url: "https://webcams.tramino.net/das-hoechste/heuberg-bergstation.jpg" },
@@ -111,7 +108,7 @@ function aktualisieren() {
     $("vor").textContent = "";
     $("zahl").textContent = "Heute";
     $("zahl").classList.add("wort");
-    $("nach").textContent = "stehe ich auf der Piste! ⛷️";
+    $("nach").textContent = "stehe ich auf der Piste!";
   } else {
     const d = Math.round((s - heute) / TAG);
     $("zahl").classList.remove("wort");
@@ -150,18 +147,10 @@ WEBCAMS.forEach(c => {
   f.append(wrap, cap);
   $("cams").append(f);
 
-  c.img = img; c.aufnahme = ""; c.res = ""; c.geladen = "";
-  c.zeigeInfo = () => { info.textContent = [c.res, c.geladen].filter(Boolean).join(" · ") + c.aufnahme; };
+  c.img = img; c.aufnahme = ""; c.geladen = "";
+  c.zeigeInfo = () => { info.textContent = c.geladen + c.aufnahme; };
 
   img.addEventListener("load", () => {
-    const w = img.naturalWidth, h = img.naturalHeight;
-    if (w && h) {
-      // Kopfzeile abschneiden: Bild nach oben schieben, Rahmen entsprechend kürzen
-      const k = KOPFZEILE_ABSCHNEIDEN;
-      wrap.style.aspectRatio = w + " / " + (h * (1 - k));
-      img.style.marginTop = "-" + (k * h / w * 100) + "%";
-      c.res = w + " × " + h + " px";
-    }
     c.geladen = "Aktualisiert: " + fmt(new Date()) + " Uhr";
     c.zeigeInfo();
   });
